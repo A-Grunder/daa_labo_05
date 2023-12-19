@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">DAA Gallery</string>
     <string name="reload">reload</string>
-    <string name="empty_image_description">image n° XXX</string>
+    <string name="empty_image_description">image n° </string>
 </resources>
