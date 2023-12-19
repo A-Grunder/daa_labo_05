@@ -11,7 +11,13 @@ class CleanCacheWorker(
 ) : CoroutineWorker(appContext, params) {
     override suspend fun doWork(): Result {
         cleanCache(applicationContext)
+        notifyCacheCleared()
         return Result.success()
+    }
+
+    private fun notifyCacheCleared() {
+        val activity = applicationContext as MainActivity
+        activity.onCacheCleared()
     }
 
     companion object {

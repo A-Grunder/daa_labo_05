@@ -31,6 +31,8 @@ class GalleryAdapter(private val images: List<Item>,
             cancelJob()
 
             currentJob = scope.launch {
+                progressBar.visibility = View.VISIBLE
+                imageView.visibility = View.GONE
                 val isCached = item.isImageCached(itemView.context)
                 val  bytes = if (isCached) {
                     item.getCachedImage(itemView.context)
@@ -73,6 +75,9 @@ class GalleryAdapter(private val images: List<Item>,
 
         holder.itemView.setOnClickListener {
             // feedback to the user that the image was clicked
+            holder.imageView.alpha = 0.7f
+            holder.imageView.animate().alpha(1f).duration = 300
+
         }
     }
 

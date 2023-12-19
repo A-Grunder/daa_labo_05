@@ -21,7 +21,6 @@ class MainActivity : AppCompatActivity() {
     private val images = mutableListOf<Item>()
     private val scope = lifecycleScope
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -39,7 +38,7 @@ class MainActivity : AppCompatActivity() {
         val cleanCacheRequest = PeriodicWorkRequestBuilder<CleanCacheWorker>(
             repeatInterval = 15,
             repeatIntervalTimeUnit = TimeUnit.MINUTES
-        ).build()
+        ).addTag("cleanCacheTag").build()
 
         workManager.enqueueUniquePeriodicWork(
             "cleanCache",
@@ -54,6 +53,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    fun onCacheCleared() {
+        adapter.notifyDataSetChanged()
+    }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
@@ -61,6 +63,7 @@ class MainActivity : AppCompatActivity() {
         // add listeners to the menu items
         menu?.findItem(R.id.reload)?.setOnMenuItemClickListener {
             CleanCacheWorker.cleanCache(this)
+            onCacheCleared()
             true
         }
 
